@@ -1,501 +1,511 @@
-<div class="payment-route">
-  <div class="route-head">
-    <div>
-      <div class="route-title">Проверьте маршрут платежа</div>
-      <div class="route-subtitle">
-        Нажимайте на этапы: после проверки карточка останется отмеченной
+<div class="payment-route-widget" data-payment-route-widget>
+  <div class="pr-card">
+    <div class="pr-header">
+      <h2 class="pr-title">Проверьте, как в компании организован маршрут платежа за рубеж</h2>
+      <p class="pr-subtitle">
+        Переключайте карточки и смотрите, что проверить и запросить на каждом из этапов
+      </p>
+    </div>
+
+    <div class="pr-layout">
+      <div class="pr-tabs" role="tablist" aria-label="Этапы проверки платежа">
+        <button class="pr-step pr-step-active" type="button" role="tab" data-step="1" aria-selected="true">
+          <span class="pr-step-number">1</span>
+          <span class="pr-step-text">Этап 1</span>
+        </button>
+        <button class="pr-step" type="button" role="tab" data-step="2" aria-selected="false">
+          <span class="pr-step-number">2</span>
+          <span class="pr-step-text">Этап 2</span>
+        </button>
+        <button class="pr-step" type="button" role="tab" data-step="3" aria-selected="false">
+          <span class="pr-step-number">3</span>
+          <span class="pr-step-text">Этап 3</span>
+        </button>
+        <button class="pr-step" type="button" role="tab" data-step="4" aria-selected="false">
+          <span class="pr-step-number">4</span>
+          <span class="pr-step-text">Этап 4</span>
+        </button>
+      </div>
+
+      <div class="pr-content">
+        <section class="pr-panel pr-panel-active" role="tabpanel" data-panel="1">
+          <h3 class="pr-panel-title">Компания</h3>
+          <p class="pr-panel-text">
+            <strong>Проверьте:</strong> Проверьте схему расчета до первого платежа: допускает ли контракт оплату через третье лицо, какой платеж должен провести посредник и какие документы понадобятся банку
+          </p>
+          <p class="pr-panel-text">
+            <strong>Получите документы:</strong> Внешнеторговый контракт, инвойс и внутреннее согласование схемы расчета
+          </p>
+        </section>
+
+        <section class="pr-panel" role="tabpanel" data-panel="2" hidden>
+          <h3 class="pr-panel-title">Российский посредник</h3>
+          <p class="pr-panel-text">
+            <strong>Проверьте:</strong> Проверьте, что на конкретный платеж оформлено поручение, посредник получил деньги и принял поручение к исполнению
+          </p>
+          <p class="pr-panel-text">
+            <strong>Получите документы:</strong> Поручение посреднику, платежное поручение компании и подтверждение получения средств посредником
+          </p>
+        </section>
+
+        <section class="pr-panel" role="tabpanel" data-panel="3" hidden>
+          <h3 class="pr-panel-title">Иностранный поставщик</h3>
+          <p class="pr-panel-text">
+            <strong>Проверьте:</strong> Сначала подтвердите отправку платежа, затем отдельно — зачисление денег поставщику. Сверьте полученную сумму и дату с условиями контракта
+          </p>
+          <p class="pr-panel-text">
+            <strong>Получите документы:</strong> Для отправки — SWIFT MT103 или иной банковский документ. Для зачисления — банковское подтверждение либо письмо поставщика о получении средств
+          </p>
+        </section>
+
+        <section class="pr-panel" role="tabpanel" data-panel="4" hidden>
+          <h3 class="pr-panel-title">Банк</h3>
+          <p class="pr-panel-text">
+            <strong>Проверьте:</strong> Сопоставьте сведения в контракте, инвойсе, поручении, банковских подтверждениях и отчете посредника. Убедитесь, что участие третьего лица корректно отражено при валютном сопровождении
+          </p>
+          <p class="pr-panel-text">
+            <strong>Получите документы:</strong> Комплект документов по операции и отчет посредника. По поставленному на учет контракту дополнительно проверьте отражение исполнения в ведомости банковского контроля
+          </p>
+        </section>
       </div>
     </div>
 
-    <div class="progress-box">
-      <div class="progress-text">Пройдено <span id="doneCount">0</span> из 4</div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="money-label">Маршрут денег</div>
-
-  <div class="route-line">
-    <button class="route-card" data-step="1">
-      <span class="checkmark">✓</span>
-      <span class="num">1</span>
-      <span class="name">Компания</span>
-      <span class="hint">Формирует поручение</span>
-    </button>
-
-    <span class="arrow">→</span>
-
-    <button class="route-card" data-step="2">
-      <span class="checkmark">✓</span>
-      <span class="num">2</span>
-      <span class="name">Российский<br>посредник</span>
-      <span class="hint">Организует платеж</span>
-    </button>
-
-    <span class="arrow">→</span>
-
-    <button class="route-card" data-step="3">
-      <span class="checkmark">✓</span>
-      <span class="num">3</span>
-      <span class="name">Иностранный<br>поставщик</span>
-      <span class="hint">Получает деньги</span>
-    </button>
-  </div>
-
-  <div class="bank-wrap">
-    <div class="bank-connector"></div>
-
-    <button class="bank-card route-card" data-step="4">
-      <span class="checkmark">✓</span>
-      <span class="num">4</span>
-      <span class="name">Банк</span>
-      <span class="hint">Проверяет документы по операции</span>
-    </button>
-
-    <div class="bank-caption">
-      <strong>Отдельный контур контроля</strong>
-      <span>
-        Банк не участвует в маршруте денег. Он проверяет документы по внешнеторговой операции и отражает ее при валютном сопровождении.
-      </span>
-    </div>
-  </div>
-
-  <div class="modal-overlay">
-    <div class="modal-card">
-      <button class="close-btn" aria-label="Закрыть">×</button>
-
-      <div class="modal-top">
-        <div class="modal-number"></div>
-        <div class="modal-title"></div>
-      </div>
-
-      <div class="modal-section">
-        <div class="modal-label">Что проверить</div>
-        <div class="modal-check"></div>
-      </div>
-
-      <div class="modal-section">
-        <div class="modal-label">Какой документ получить</div>
-        <div class="modal-doc"></div>
-      </div>
-
-      <div class="modal-section">
-        <div class="modal-label">Кто отвечает</div>
-        <div class="modal-owner"></div>
-      </div>
+    <div class="pr-actions">
+      <button class="pr-download-btn" type="button" onclick="downloadChecklist()">
+        Скачать чек-лист
+      </button>
     </div>
   </div>
 </div>
 
 <style>
-.payment-route {
-  width: 757px;
-  height: 430px;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  background: #f6f0df;
-  border-top: 10px solid #3d7f7b;
-  padding: 18px 28px 14px;
-  font-family: Georgia, "Times New Roman", serif;
-  color: #173c3a;
-}
+  .payment-route-widget,
+  .payment-route-widget * {
+    box-sizing: border-box;
+  }
 
-.route-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
+  .payment-route-widget {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #173c3a;
+  }
 
-.route-title {
-  font-size: 25px;
-  line-height: 1.1;
-  font-weight: 700;
-  color: #2e716e;
-}
+  .pr-card {
+    background: #EFF7F5;
+    border: 1px solid rgba(61, 127, 123, 0.2);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 12px 32px rgba(61, 127, 123, 0.12);
+  }
 
-.route-subtitle {
-  margin-top: 4px;
-  font-size: 14px;
-  color: #655f53;
-}
+  .pr-header {
+    margin-bottom: 24px;
+  }
 
-.progress-box {
-  width: 160px;
-  margin-top: 3px;
-}
+  .pr-title {
+    margin: 0 0 10px;
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: #2e716e;
+  }
 
-.progress-text {
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  color: #655f53;
-  margin-bottom: 6px;
-}
+  .pr-subtitle {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.45;
+    color: #655f53;
+  }
 
-.progress-track {
-  height: 7px;
-  background: #ddd6c4;
-  overflow: hidden;
-}
+  .pr-layout {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
 
-.progress-fill {
-  width: 0;
-  height: 100%;
-  background: #3d7f7b;
-  transition: width .3s ease;
-}
+  .pr-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.money-label {
-  margin-top: 16px;
-  margin-bottom: 7px;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: .7px;
-  text-transform: uppercase;
-  color: #756e60;
-}
+  .pr-step {
+    width: 100%;
+    min-height: 52px;
+    border: 1px solid rgba(61, 127, 123, 0.2);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.62);
+    color: #173c3a;
+    padding: 10px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    text-align: left;
+    font: inherit;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
 
-.route-line {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .pr-step:hover {
+    border-color: #3d7f7b;
+    background: #ffffff;
+    transform: translateY(-1px);
+  }
 
-.route-card {
-  position: relative;
-  width: 152px;
-  height: 108px;
-  box-sizing: border-box;
-  border: 1px solid #8aa9a6;
-  background: #fffdf7;
-  color: #173c3a;
-  padding: 13px;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    background .25s ease,
-    color .25s ease;
-}
+  .pr-step:focus-visible {
+    outline: 3px solid rgba(61, 127, 123, 0.35);
+    outline-offset: 3px;
+  }
 
-.route-card:hover {
-  transform: translateY(-4px) scale(1.025);
-  border-color: #3d7f7b;
-  box-shadow: 0 7px 16px rgba(38, 80, 77, .13);
-}
+  .pr-step-active {
+    background: #3d7f7b;
+    color: #ffffff;
+    border-color: #3d7f7b;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(61, 127, 123, 0.22);
+  }
 
-.route-card.visited {
-  background: #3d7f7b;
-  color: #fffdf7;
-  border-color: #3d7f7b;
-}
+  .pr-step-active:hover {
+    background: #3d7f7b;
+    color: #ffffff;
+  }
 
-.route-card .num {
-  display: block;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  color: #3d7f7b;
-  margin-bottom: 7px;
-}
+  .pr-step-number {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 50%;
+    background: #3d7f7b;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+  }
 
-.route-card.visited .num {
-  color: #dceceb;
-}
+  .pr-step-active .pr-step-number {
+    background: #ffffff;
+    color: #3d7f7b;
+  }
 
-.route-card .name {
-  display: block;
-  font-size: 17px;
-  line-height: 1.05;
-  font-weight: 700;
-}
+  .pr-step-text {
+    font-size: 16px;
+    line-height: 1.2;
+  }
 
-.route-card .hint {
-  display: block;
-  margin-top: 7px;
-  font-size: 12px;
-  line-height: 1.2;
-  color: #756e60;
-}
+  .pr-content {
+    min-width: 0;
+  }
 
-.route-card.visited .hint {
-  color: #e5efed;
-}
+  .pr-panel {
+    height: 245px;
+    background: #ffffff;
+    border: 1px solid rgba(61, 127, 123, 0.2);
+    border-left: 6px solid #3d7f7b;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 24px rgba(34, 34, 34, 0.06);
+    animation: prFadeIn 0.25s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
-.checkmark {
-  display: none;
-  position: absolute;
-  top: 9px;
-  right: 11px;
-  font-family: Arial, sans-serif;
-  font-size: 17px;
-  color: #fff;
-}
+  .pr-panel[hidden] {
+    display: none;
+  }
 
-.route-card.visited .checkmark {
-  display: block;
-}
+  .pr-panel::-webkit-scrollbar {
+    width: 6px;
+  }
 
-.arrow {
-  margin: 0 18px;
-  font-family: Arial, sans-serif;
-  color: #3d7f7b;
-  font-size: 28px;
-}
+  .pr-panel::-webkit-scrollbar-track {
+    background: #EFF7F5;
+    border-radius: 999px;
+  }
 
-.bank-wrap {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 14px;
-  display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  column-gap: 16px;
-  align-items: center;
-}
+  .pr-panel::-webkit-scrollbar-thumb {
+    background: rgba(61, 127, 123, 0.45);
+    border-radius: 999px;
+  }
 
-.bank-connector {
-  position: absolute;
-  left: 100px;
-  top: -14px;
-  width: 1px;
-  height: 14px;
-  background: #8aa9a6;
-}
+  .pr-panel::-webkit-scrollbar-thumb:hover {
+    background: #3d7f7b;
+  }
 
-.bank-card {
-  width: 200px;
-  height: 96px;
-  box-sizing: border-box;
-  padding: 12px 14px;
-}
+  .pr-panel-title {
+    margin: 0 0 14px;
+    color: #3d7f7b;
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
 
-.bank-card .hint {
-  max-width: 160px;
-}
+  .pr-panel-text {
+    margin: 0;
+    color: #173c3a;
+    font-size: 17px;
+    line-height: 1.6;
+  }
 
-.bank-caption {
-  min-width: 0;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 10px 14px;
-  border-left: 3px solid #3d7f7b;
-  background: rgba(255, 253, 247, .58);
-  font-size: 12.5px;
-  line-height: 1.25;
-  color: #585247;
-}
+  .pr-panel-text + .pr-panel-text {
+    margin-top: 14px;
+  }
 
-.bank-caption strong {
-  display: block;
-  margin-bottom: 3px;
-  font-size: 14px;
-  line-height: 1.15;
-  color: #2e716e;
-}
+  .pr-actions {
+    margin-top: 20px;
+    text-align: right;
+  }
 
-.bank-caption span {
-  display: block;
-}
+  .pr-download-btn {
+    border: none;
+    background: #3d7f7b;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
 
-.modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(30, 62, 59, .38);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .22s ease;
-  z-index: 20;
-}
+  .pr-download-btn:hover {
+    background: #2e716e;
+  }
 
-.modal-overlay.open {
-  opacity: 1;
-  visibility: visible;
-}
+  @keyframes prFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-.modal-card {
-  position: relative;
-  width: 610px;
-  min-height: 285px;
-  box-sizing: border-box;
-  background: #fffdf7;
-  border-top: 8px solid #3d7f7b;
-  padding: 24px 32px;
-  box-shadow: 0 15px 35px rgba(20, 54, 52, .22);
-  transform: scale(.78);
-  opacity: 0;
-  transition:
-    transform .25s ease,
-    opacity .25s ease;
-}
+  @media (max-width: 760px) {
+    .pr-card {
+      padding: 22px;
+      border-radius: 20px;
+    }
 
-.modal-overlay.open .modal-card {
-  transform: scale(1);
-  opacity: 1;
-}
+    .pr-title {
+      font-size: 24px;
+    }
 
-.modal-top {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  margin-bottom: 16px;
-}
+    .pr-layout {
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 14px;
+    }
 
-.modal-number {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #3d7f7b;
-  color: #fff;
-  text-align: center;
-  line-height: 28px;
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-}
+    .pr-step {
+      min-height: 48px;
+      padding: 10px;
+    }
 
-.modal-title {
-  color: #2e716e;
-  font-size: 24px;
-  font-weight: 700;
-}
+    .pr-step-text {
+      font-size: 15px;
+    }
 
-.modal-section {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 15px;
-  border-top: 1px solid #d4d2c8;
-  padding: 10px 0;
-  font-size: 14px;
-  line-height: 1.35;
-}
+    .pr-panel {
+      height: 275px;
+    }
+  }
 
-.modal-label {
-  font-weight: 700;
-  color: #2e716e;
-}
+  @media (max-width: 560px) {
+    .pr-card {
+      padding: 18px;
+    }
 
-.modal-check,
-.modal-doc,
-.modal-owner {
-  color: #39372f;
-}
+    .pr-title {
+      font-size: 21px;
+    }
 
-.close-btn {
-  position: absolute;
-  right: 14px;
-  top: 9px;
-  border: 0;
-  background: transparent;
-  color: #3d7f7b;
-  font-family: Arial, sans-serif;
-  font-size: 29px;
-  cursor: pointer;
-}
+    .pr-subtitle {
+      font-size: 15px;
+    }
+
+    .pr-layout {
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .pr-step {
+      min-height: 44px;
+      padding: 8px;
+      gap: 7px;
+    }
+
+    .pr-step-number {
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      font-size: 13px;
+    }
+
+    .pr-step-text {
+      font-size: 14px;
+    }
+
+    .pr-panel {
+      height: 310px;
+      padding: 18px;
+      border-radius: 16px;
+    }
+
+    .pr-panel-title {
+      font-size: 19px;
+    }
+
+    .pr-panel-text {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .pr-card {
+      padding: 14px;
+    }
+
+    .pr-layout {
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    .pr-step {
+      padding: 7px;
+      gap: 6px;
+      border-radius: 12px;
+    }
+
+    .pr-step-number {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      font-size: 12px;
+    }
+
+    .pr-step-text {
+      font-size: 13px;
+    }
+
+    .pr-panel {
+      height: 340px;
+      padding: 14px;
+      border-left-width: 4px;
+    }
+
+    .pr-panel-title {
+      font-size: 18px;
+    }
+
+    .pr-panel-text {
+      font-size: 15px;
+      line-height: 1.55;
+    }
+  }
 </style>
 
 <script>
-const routeData = {
-  1: {
-    title: "Компания",
-    check:
-      "Проверьте схему расчета до первого платежа: допускает ли контракт оплату через третье лицо, какой платеж должен провести посредник и какие документы понадобятся банку.",
-    doc:
-      "Внешнеторговый контракт, инвойс и внутреннее согласование схемы расчета.",
-    owner:
-      "Казначейство, бухгалтерия ВЭД и финансовый директор."
-  },
+  (function () {
+    const widgets = document.querySelectorAll('[data-payment-route-widget]');
 
-  2: {
-    title: "Российский посредник",
-    check:
-      "Проверьте, что на конкретный платеж оформлено поручение, посредник получил деньги и принял поручение к исполнению.",
-    doc:
-      "Поручение посреднику, платежное поручение компании и подтверждение получения средств посредником.",
-    owner:
-      "Казначейство."
-  },
+    widgets.forEach(function (widget, widgetIndex) {
+      const steps = widget.querySelectorAll('.pr-step');
+      const panels = widget.querySelectorAll('.pr-panel');
 
-  3: {
-    title: "Иностранный поставщик",
-    check:
-      "Сначала подтвердите отправку платежа, затем отдельно — зачисление денег поставщику. Сверьте полученную сумму и дату с условиями контракта.",
-    doc:
-      "Для отправки — SWIFT MT103 или иной банковский документ. Для зачисления — банковское подтверждение либо письмо поставщика о получении средств.",
-    owner:
-      "Казначейство совместно с сотрудником, который ведет внешнеторговый контракт."
-  },
+      steps.forEach(function (step, index) {
+        const stepNumber = step.dataset.step;
+        const tabId = 'pr-tab-' + widgetIndex + '-' + stepNumber;
+        const panelId = 'pr-panel-' + widgetIndex + '-' + stepNumber;
+        const panel = widget.querySelector('.pr-panel[data-panel="' + stepNumber + '"]');
 
-  4: {
-    title: "Банк",
-    check:
-      "Сопоставьте сведения в контракте, инвойсе, поручении, банковских подтверждениях и отчете посредника. Убедитесь, что участие третьего лица корректно отражено при валютном сопровождении.",
-    doc:
-      "Комплект документов по операции и отчет посредника. По поставленному на учет контракту дополнительно проверьте отражение исполнения в ведомости банковского контроля.",
-    owner:
-      "Бухгалтерия ВЭД или сотрудник, отвечающий за валютный контроль."
+        step.id = tabId;
+        step.setAttribute('aria-controls', panelId);
+
+        if (panel) {
+          panel.id = panelId;
+          panel.setAttribute('aria-labelledby', tabId);
+        }
+
+        step.addEventListener('keydown', function (event) {
+          let targetIndex = index;
+
+          if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+            event.preventDefault();
+            targetIndex = index + 1 >= steps.length ? 0 : index + 1;
+            steps[targetIndex].focus();
+            activateStep(steps[targetIndex].dataset.step);
+          }
+
+          if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+            event.preventDefault();
+            targetIndex = index - 1 < 0 ? steps.length - 1 : index - 1;
+            steps[targetIndex].focus();
+            activateStep(steps[targetIndex].dataset.step);
+          }
+        });
+      });
+
+      function activateStep(stepNumber) {
+        steps.forEach(function (step) {
+          const isActive = step.dataset.step === stepNumber;
+          step.classList.toggle('pr-step-active', isActive);
+          step.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        panels.forEach(function (panel) {
+          const isActive = panel.dataset.panel === stepNumber;
+          panel.classList.toggle('pr-panel-active', isActive);
+          if (isActive) {
+            panel.removeAttribute('hidden');
+          } else {
+            panel.setAttribute('hidden', '');
+          }
+        });
+      }
+
+      steps.forEach(function (step) {
+        step.addEventListener('click', function () {
+          activateStep(step.dataset.step);
+        });
+      });
+    });
+  })();
+
+  function downloadChecklist() {
+    const widgets = document.querySelectorAll('[data-payment-route-widget]');
+    if (!widgets.length) return;
+
+    const widget = widgets[0];
+    const panels = widget.querySelectorAll('.pr-panel');
+
+    let text = 'Чек-лист: Проверьте маршрут платежа\n\n';
+
+    panels.forEach(function (panel, index) {
+      const title = panel.querySelector('.pr-panel-title').textContent;
+      const paragraphs = panel.querySelectorAll('.pr-panel-text');
+      text += 'Этап ' + (index + 1) + '. ' + title + '\n';
+      paragraphs.forEach(function (p) {
+        text += p.textContent.trim() + '\n';
+      });
+      text += '\n';
+    });
+
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'checklist_payment_route.txt';
+    link.click();
+    URL.revokeObjectURL(link.href);
   }
-};
-
-const cards = document.querySelectorAll(".route-card");
-const overlay = document.querySelector(".modal-overlay");
-const closeBtn = document.querySelector(".close-btn");
-
-const modalNumber = document.querySelector(".modal-number");
-const modalTitle = document.querySelector(".modal-title");
-const modalCheck = document.querySelector(".modal-check");
-const modalDoc = document.querySelector(".modal-doc");
-const modalOwner = document.querySelector(".modal-owner");
-
-const doneCount = document.getElementById("doneCount");
-const progressFill = document.getElementById("progressFill");
-
-const visited = new Set();
-
-function updateProgress() {
-  doneCount.textContent = visited.size;
-  progressFill.style.width = (visited.size / 4 * 100) + "%";
-}
-
-cards.forEach(card => {
-  card.addEventListener("click", () => {
-    const id = card.dataset.step;
-    const data = routeData[id];
-
-    visited.add(id);
-    card.classList.add("visited");
-    updateProgress();
-
-    modalNumber.textContent = id;
-    modalTitle.textContent = data.title;
-    modalCheck.textContent = data.check;
-    modalDoc.textContent = data.doc;
-    modalOwner.textContent = data.owner;
-
-    overlay.classList.add("open");
-  });
-});
-
-function closeModal() {
-  overlay.classList.remove("open");
-}
-
-closeBtn.addEventListener("click", closeModal);
-
-overlay.addEventListener("click", event => {
-  if (event.target === overlay) {
-    closeModal();
-  }
-});
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") {
-    closeModal();
-  }
-});
 </script>
