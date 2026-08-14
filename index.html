@@ -69,17 +69,8 @@
         </section>
       </div>
     </div>
-
-    <div class="pr-actions">
-      <button class="pr-download-btn" type="button" onclick="savePdf()">
-        Сохранить в PDF
-      </button>
-    </div>
   </div>
 </div>
-
-<!-- Подключаем html2pdf -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
   .payment-route-widget,
@@ -262,27 +253,6 @@
 
   .pr-panel-text + .pr-panel-text {
     margin-top: 14px;
-  }
-
-  .pr-actions {
-    margin-top: 20px;
-    text-align: right;
-  }
-
-  .pr-download-btn {
-    border: none;
-    background: #3d7f7b;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 700;
-    padding: 10px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.25s ease;
-  }
-
-  .pr-download-btn:hover {
-    background: #2e716e;
   }
 
   @keyframes prFadeIn {
@@ -485,77 +455,4 @@
       });
     });
   })();
-
-  async function savePdf() {
-    if (typeof html2pdf === 'undefined') {
-      alert('Не удалось загрузить библиотеку для PDF. Проверьте интернет-соединение.');
-      return;
-    }
-
-    const widget = document.querySelector('[data-payment-route-widget]');
-    if (!widget) return;
-
-    const panels = widget.querySelectorAll('.pr-panel');
-    const actions = widget.querySelector('.pr-actions');
-
-    // Сохраняем исходные стили
-    const originalActionsDisplay = actions.style.display;
-    const originalPanelStyles = [];
-
-    panels.forEach(panel => {
-      originalPanelStyles.push({
-        element: panel,
-        height: panel.style.height,
-        overflowY: panel.style.overflowY,
-        display: panel.style.display
-      });
-    });
-
-    // Показываем все панели и снимаем ограничения высоты
-    panels.forEach(panel => {
-      panel.removeAttribute('hidden');
-      panel.style.height = 'auto';
-      panel.style.overflowY = 'visible';
-      panel.style.display = 'block';
-    });
-
-    // Скрываем кнопки
-    actions.style.display = 'none';
-
-    // Экспортируем
-    const options = {
-      margin: 0,
-      filename: 'checklist_payment_route.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-      },
-      jsPDF: {
-        unit: 'mm',
-        format: 'a4',
-        orientation: 'portrait'
-      }
-    };
-
-    try {
-      await html2pdf().set(options).from(widget).save();
-    } catch (error) {
-      console.error(error);
-      alert('Не удалось сохранить PDF.');
-    } finally {
-      // Восстанавливаем исходные стили
-      actions.style.display = originalActionsDisplay;
-      panels.forEach(panel => {
-        const original = originalPanelStyles.find(item => item.element === panel);
-        panel.style.height = original.height;
-        panel.style.overflowY = original.overflowY;
-        panel.style.display = original.display;
-        if (!panel.classList.contains('pr-panel-active')) {
-          panel.setAttribute('hidden', '');
-        }
-      });
-    }
-  }
 </script>
