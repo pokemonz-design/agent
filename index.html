@@ -78,18 +78,18 @@
   </div>
 </div>
 
-<!-- Подключаем jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Подключаем html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-  /* Ваши стили без изменений */
   .payment-route-widget,
   .payment-route-widget * {
     box-sizing: border-box;
   }
 
   .payment-route-widget {
-    max-width: 900px;
+    width: 757px;
+    max-width: 100%;
     margin: 0 auto;
     font-family: Arial, Helvetica, sans-serif;
     color: #173c3a;
@@ -297,36 +297,125 @@
   }
 
   @media (max-width: 760px) {
-    .pr-card { padding: 22px; border-radius: 20px; }
-    .pr-title { font-size: 24px; }
-    .pr-layout { grid-template-columns: 150px minmax(0, 1fr); gap: 14px; }
-    .pr-step { min-height: 48px; padding: 10px; }
-    .pr-step-text { font-size: 15px; }
-    .pr-panel { height: 275px; }
+    .pr-card {
+      padding: 22px;
+      border-radius: 20px;
+    }
+
+    .pr-title {
+      font-size: 24px;
+    }
+
+    .pr-layout {
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .pr-step {
+      min-height: 48px;
+      padding: 10px;
+    }
+
+    .pr-step-text {
+      font-size: 15px;
+    }
+
+    .pr-panel {
+      height: 275px;
+    }
   }
 
   @media (max-width: 560px) {
-    .pr-card { padding: 18px; }
-    .pr-title { font-size: 21px; }
-    .pr-subtitle { font-size: 15px; }
-    .pr-layout { grid-template-columns: 118px minmax(0, 1fr); gap: 10px; }
-    .pr-step { min-height: 44px; padding: 8px; gap: 7px; }
-    .pr-step-number { width: 24px; height: 24px; flex-basis: 24px; font-size: 13px; }
-    .pr-step-text { font-size: 14px; }
-    .pr-panel { height: 310px; padding: 18px; border-radius: 16px; }
-    .pr-panel-title { font-size: 19px; }
-    .pr-panel-text { font-size: 16px; }
+    .pr-card {
+      padding: 18px;
+    }
+
+    .pr-title {
+      font-size: 21px;
+    }
+
+    .pr-subtitle {
+      font-size: 15px;
+    }
+
+    .pr-layout {
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .pr-step {
+      min-height: 44px;
+      padding: 8px;
+      gap: 7px;
+    }
+
+    .pr-step-number {
+      width: 24px;
+      height: 24px;
+      flex-basis: 24px;
+      font-size: 13px;
+    }
+
+    .pr-step-text {
+      font-size: 14px;
+    }
+
+    .pr-panel {
+      height: 310px;
+      padding: 18px;
+      border-radius: 16px;
+    }
+
+    .pr-panel-title {
+      font-size: 19px;
+    }
+
+    .pr-panel-text {
+      font-size: 16px;
+    }
   }
 
   @media (max-width: 420px) {
-    .pr-card { padding: 14px; }
-    .pr-layout { grid-template-columns: 96px minmax(0, 1fr); gap: 8px; }
-    .pr-step { padding: 7px; gap: 6px; border-radius: 12px; }
-    .pr-step-number { width: 22px; height: 22px; flex-basis: 22px; font-size: 12px; }
-    .pr-step-text { font-size: 13px; }
-    .pr-panel { height: 340px; padding: 14px; border-left-width: 4px; }
-    .pr-panel-title { font-size: 18px; }
-    .pr-panel-text { font-size: 15px; line-height: 1.55; }
+    .pr-card {
+      padding: 14px;
+    }
+
+    .pr-layout {
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    .pr-step {
+      padding: 7px;
+      gap: 6px;
+      border-radius: 12px;
+    }
+
+    .pr-step-number {
+      width: 22px;
+      height: 22px;
+      flex-basis: 22px;
+      font-size: 12px;
+    }
+
+    .pr-step-text {
+      font-size: 13px;
+    }
+
+    .pr-panel {
+      height: 340px;
+      padding: 14px;
+      border-left-width: 4px;
+    }
+
+    .pr-panel-title {
+      font-size: 18px;
+    }
+
+    .pr-panel-text {
+      font-size: 15px;
+      line-height: 1.55;
+    }
   }
 </style>
 
@@ -398,57 +487,75 @@
   })();
 
   async function savePdf() {
-    if (typeof window.jspdf === 'undefined') {
+    if (typeof html2pdf === 'undefined') {
       alert('Не удалось загрузить библиотеку для PDF. Проверьте интернет-соединение.');
       return;
     }
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    const widget = document.querySelector('[data-payment-route-widget]');
+    if (!widget) return;
 
-    const widgets = document.querySelectorAll('[data-payment-route-widget]');
-    if (!widgets.length) return;
-
-    const widget = widgets[0];
     const panels = widget.querySelectorAll('.pr-panel');
-    const title = widget.querySelector('.pr-title')?.textContent || 'Чек-лист';
+    const actions = widget.querySelector('.pr-actions');
 
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(46, 113, 110); // бирюзовый
-    doc.text(title, 14, 20);
+    // Сохраняем исходные стили
+    const originalActionsDisplay = actions.style.display;
+    const originalPanelStyles = [];
 
-    let y = 30;
-
-    panels.forEach(function (panel, index) {
-      const panelTitle = panel.querySelector('.pr-panel-title').textContent;
-      const paragraphs = panel.querySelectorAll('.pr-panel-text');
-
-      doc.setFontSize(13);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(61, 127, 123);
-      doc.text('Этап ' + (index + 1) + '. ' + panelTitle, 14, y);
-      y += 7;
-
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(0, 0, 0);
-
-      paragraphs.forEach(function (p) {
-        const text = p.textContent.trim();
-        const lines = doc.splitTextToSize(text, 180);
-        doc.text(lines, 14, y);
-        y += lines.length * 5 + 3;
+    panels.forEach(panel => {
+      originalPanelStyles.push({
+        element: panel,
+        height: panel.style.height,
+        overflowY: panel.style.overflowY,
+        display: panel.style.display
       });
-
-      y += 5;
-
-      if (y > 280) {
-        doc.addPage();
-        y = 20;
-      }
     });
 
-    doc.save('checklist_payment_route.pdf');
+    // Показываем все панели и снимаем ограничения высоты
+    panels.forEach(panel => {
+      panel.removeAttribute('hidden');
+      panel.style.height = 'auto';
+      panel.style.overflowY = 'visible';
+      panel.style.display = 'block';
+    });
+
+    // Скрываем кнопки
+    actions.style.display = 'none';
+
+    // Экспортируем
+    const options = {
+      margin: 0,
+      filename: 'checklist_payment_route.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait'
+      }
+    };
+
+    try {
+      await html2pdf().set(options).from(widget).save();
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось сохранить PDF.');
+    } finally {
+      // Восстанавливаем исходные стили
+      actions.style.display = originalActionsDisplay;
+      panels.forEach(panel => {
+        const original = originalPanelStyles.find(item => item.element === panel);
+        panel.style.height = original.height;
+        panel.style.overflowY = original.overflowY;
+        panel.style.display = original.display;
+        if (!panel.classList.contains('pr-panel-active')) {
+          panel.setAttribute('hidden', '');
+        }
+      });
+    }
   }
 </script>
